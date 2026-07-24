@@ -24,11 +24,15 @@ jobs:
 
       # Step 3: Install project dependencies.
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # Step 4: Install the browser binaries Playwright needs.
+      # Step 4: Make the Playwright CLI executable and install the browser binaries.
+      # This avoids the permission issue that can happen with the .bin shim on GitHub-hosted runners.
+      - name: Make Playwright CLI executable
+        run: chmod +x node_modules/.bin/playwright
+
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: node node_modules/@playwright/test/cli.js install --with-deps chromium
 
       # Step 5: Run the Playwright test suite.
       - name: Run Playwright tests
