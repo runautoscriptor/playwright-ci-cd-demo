@@ -1,0 +1,44 @@
+name: Playwright CI/CD Learning Workflow
+
+# This workflow runs whenever code is pushed or a pull request is opened.
+# It is a simple GitHub Actions example for learning how CI/CD works.
+on: 
+  push:
+  pull_request:
+
+jobs:
+  playwright-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Download the repository code into the runner.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install Node.js so npm can be used.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Step 3: Install project dependencies.
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Install the browser binaries Playwright needs.
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      # Step 5: Run the Playwright test suite.
+      - name: Run Playwright tests
+        run: npm test
+
+      # Step 6: Upload the HTML report even when tests fail.
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: warn

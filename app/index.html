@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playwright CI/CD Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Playwright CI/CD Playground</h1>
+      <p class="subtitle">A simple login page for learning automation and GitHub Actions.</p>
+
+      <form id="loginForm" class="card">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" placeholder="Enter username" />
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Enter password" />
+
+        <button id="loginButton" type="submit">Login</button>
+        <button id="logoutButton" type="button" class="secondary hidden">Logout</button>
+
+        <p id="message" class="message" aria-live="polite"></p>
+      </form>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

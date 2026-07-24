@@ -1,0 +1,15 @@
+{
+  "name": "playwright-github-actions-playground",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Beginner-friendly Playwright + GitHub Actions learning project",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "typescript": "^5.6.3"
+  }
+}
