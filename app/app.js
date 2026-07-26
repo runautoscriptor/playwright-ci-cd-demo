@@ -38,8 +38,7 @@ const profileView = document.getElementById('profileView');
 const profileForm = document.getElementById('profileForm');
 
 const correctUsername = 'qa';
-// const correctPassword = 'pass123';
-const correctPassword = 'pass12';
+const correctPassword = 'pass123';
 
 let profileData = {
   fullName: 'Jane Doe',
