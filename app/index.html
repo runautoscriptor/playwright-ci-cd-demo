@@ -31,6 +31,7 @@
         <div class="nav-links">
           <a id="profileLink" href="#">Profile</a>
           <a id="cartLink" href="#">Cart</a>
+          <a id="searchLink" href="#">Search</a>
           <a id="dashboardLink" href="#" class="secondary-link hidden">Dashboard</a>
         </div>
         <p class="dashboard-note">Use the profile page to manage your details.</p>
@@ -72,6 +73,38 @@
           <p>Total Items: <span id="totalItems">0</span></p>
           <p>Cart Count: <span id="cartCount">0</span></p>
         </div>
+      </section>
+
+      <section id="searchPage" class="card hidden">
+        <h2>Search Products</h2>
+        <input id="searchInput" type="text" placeholder="Search products" />
+
+        <div class="filter-row">
+          <select id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Office">Office</option>
+          </select>
+
+          <select id="priceFilter">
+            <option value="all">All Prices</option>
+            <option value="under-100">Under $100</option>
+            <option value="100-500">$100 - $500</option>
+            <option value="above-500">Above $500</option>
+          </select>
+
+          <select id="sortFilter">
+            <option value="default">Default</option>
+            <option value="price-asc">Price Low to High</option>
+            <option value="price-desc">Price High to Low</option>
+            <option value="alpha">Alphabetical</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
+
+        <div id="searchResults"></div>
+        <p id="noProductsMessage" class="message hidden">No products found</p>
       </section>
 
       <section id="profilePage" class="card hidden">
