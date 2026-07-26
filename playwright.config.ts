@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const reportFolder = process.env.PLAYWRIGHT_HTML_OUTPUT_DIR || 'playwright-report';
+
 // This config keeps the learning path simple.
 // It starts a local web server, runs tests in Chromium,
 // and generates an HTML report for easy review.
@@ -11,7 +13,7 @@ export default defineConfig({
   },
   fullyParallel: false,
   reporter: [
-    ['html', { open: 'never', outputFolder: 'playwright-report' }],
+    ['html', { open: 'never', outputFolder: reportFolder }],
     ['list'],
   ],
   use: {

@@ -4,8 +4,11 @@
   "private": true,
   "description": "Beginner-friendly Playwright + GitHub Actions learning project",
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
+    "test": "playwright test --grep @regression",
+    "smoke": "playwright test --grep @smoke",
+    "sanity": "playwright test --grep @sanity",
+    "regression": "playwright test --grep @regression",
+    "test:headed": "playwright test --headed --grep @regression",
     "report": "playwright show-report"
   },
   "devDependencies": {
