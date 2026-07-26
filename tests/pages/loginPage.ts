@@ -30,6 +30,7 @@ export class LoginPage {
   }
 
   async logout() {
+    await this.logoutButton.scrollIntoViewIfNeeded();
     await this.logoutButton.click();
   }
 
