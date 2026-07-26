@@ -29,7 +29,7 @@ export class CartPage {
   }
 
   async addProduct(name: string) {
-    const button = this.page.locator(`button[data-product-name="${name}"]`);
+    const button = this.productsSection.locator(`.product-card[data-product-name="${name}"] button`);
     await button.click();
   }
 

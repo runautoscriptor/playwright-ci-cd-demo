@@ -7,10 +7,18 @@ const message = document.getElementById('message');
 const dashboardPage = document.getElementById('dashboardPage');
 const productsSection = document.getElementById('productsSection');
 const cartSection = document.getElementById('cartSection');
+const searchPage = document.getElementById('searchPage');
 const profilePage = document.getElementById('profilePage');
 const profileLink = document.getElementById('profileLink');
 const cartLink = document.getElementById('cartLink');
+const searchLink = document.getElementById('searchLink');
 const dashboardLink = document.getElementById('dashboardLink');
+const searchInput = document.getElementById('searchInput');
+const categoryFilter = document.getElementById('categoryFilter');
+const priceFilter = document.getElementById('priceFilter');
+const sortFilter = document.getElementById('sortFilter');
+const searchResults = document.getElementById('searchResults');
+const noProductsMessage = document.getElementById('noProductsMessage');
 const continueShoppingButton = document.getElementById('continueShoppingButton');
 const cartItems = document.getElementById('cartItems');
 const emptyCartMessage = document.getElementById('emptyCartMessage');
@@ -39,10 +47,16 @@ let profileData = {
 };
 
 const products = [
-  { name: 'Laptop', price: 1000 },
-  { name: 'Mouse', price: 50 },
-  { name: 'Keyboard', price: 120 },
-  { name: 'Monitor', price: 350 },
+  { name: 'Laptop', price: 1000, category: 'Electronics', date: '2024-01-01' },
+  { name: 'Gaming Laptop', price: 1500, category: 'Electronics', date: '2024-02-01' },
+  { name: 'Mouse', price: 50, category: 'Accessories', date: '2024-03-01' },
+  { name: 'Wireless Mouse', price: 45, category: 'Accessories', date: '2024-03-02' },
+  { name: 'Keyboard', price: 120, category: 'Accessories', date: '2024-04-01' },
+  { name: 'Mechanical Keyboard', price: 120, category: 'Accessories', date: '2024-04-02' },
+  { name: 'Monitor', price: 350, category: 'Electronics', date: '2024-05-01' },
+  { name: 'USB Cable', price: 20, category: 'Accessories', date: '2024-06-01' },
+  { name: 'Headphones', price: 80, category: 'Electronics', date: '2024-07-01' },
+  { name: 'Webcam', price: 60, category: 'Office', date: '2024-08-01' },
 ];
 
 let cart = [];
@@ -133,6 +147,61 @@ function showProfileView() {
   showProfileMessage('', '');
 }
 
+function getFilteredProducts() {
+  const searchText = searchInput.value.trim().toLowerCase();
+  const selectedCategory = categoryFilter.value;
+  const selectedPrice = priceFilter.value;
+  const selectedSort = sortFilter.value;
+
+  let filtered = products.filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(searchText);
+    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+    const matchesPrice =
+      selectedPrice === 'all' ||
+      (selectedPrice === 'under-100' && product.price < 100) ||
+      (selectedPrice === '100-500' && product.price >= 100 && product.price <= 500) ||
+      (selectedPrice === 'above-500' && product.price > 500);
+
+    return matchesSearch && matchesCategory && matchesPrice;
+  });
+
+  if (selectedSort === 'price-asc') {
+    filtered = filtered.sort((a, b) => a.price - b.price);
+  } else if (selectedSort === 'price-desc') {
+    filtered = filtered.sort((a, b) => b.price - a.price);
+  } else if (selectedSort === 'alpha') {
+    filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (selectedSort === 'newest') {
+    filtered = filtered.sort((a, b) => b.date.localeCompare(a.date));
+  }
+
+  return filtered;
+}
+
+function renderSearchResults() {
+  const filteredProducts = getFilteredProducts();
+
+  if (filteredProducts.length === 0) {
+    searchResults.innerHTML = '';
+    noProductsMessage.classList.remove('hidden');
+    return;
+  }
+
+  noProductsMessage.classList.add('hidden');
+  searchResults.innerHTML = filteredProducts
+    .map((product) => {
+      return `
+        <div class="search-product">
+          <h3>${product.name}</h3>
+          <p>Price: $${product.price}</p>
+          <p>Category: ${product.category}</p>
+          <button type="button" data-product-name="${product.name}">Add To Cart</button>
+        </div>
+      `;
+    })
+    .join('');
+}
+
 form.addEventListener('submit', (event) => {
   event.preventDefault();
 
@@ -157,9 +226,11 @@ form.addEventListener('submit', (event) => {
     dashboardPage.classList.remove('hidden');
     productsSection.classList.remove('hidden');
     cartSection.classList.add('hidden');
+    searchPage.classList.add('hidden');
     profilePage.classList.add('hidden');
     renderProfile();
     renderCart();
+    renderSearchResults();
   } else {
     showMessage('Invalid username or password.', 'error');
   }
@@ -175,6 +246,7 @@ profileLink.addEventListener('click', (event) => {
   dashboardPage.classList.add('hidden');
   productsSection.classList.add('hidden');
   cartSection.classList.add('hidden');
+  searchPage.classList.add('hidden');
   profilePage.classList.remove('hidden');
   dashboardLink.classList.remove('hidden');
   showProfileView();
@@ -185,6 +257,7 @@ cartLink.addEventListener('click', (event) => {
   dashboardPage.classList.add('hidden');
   productsSection.classList.remove('hidden');
   cartSection.classList.remove('hidden');
+  searchPage.classList.add('hidden');
   profilePage.classList.add('hidden');
   dashboardLink.classList.remove('hidden');
   renderCart();
@@ -194,6 +267,7 @@ dashboardLink.addEventListener('click', (event) => {
   event.preventDefault();
   profilePage.classList.add('hidden');
   cartSection.classList.add('hidden');
+  searchPage.classList.add('hidden');
   dashboardPage.classList.remove('hidden');
   productsSection.classList.remove('hidden');
   dashboardLink.classList.add('hidden');
@@ -203,28 +277,50 @@ editProfileButton.addEventListener('click', () => {
   showProfileEditor();
 });
 
+searchLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  dashboardPage.classList.add('hidden');
+  productsSection.classList.add('hidden');
+  cartSection.classList.add('hidden');
+  searchPage.classList.remove('hidden');
+  profilePage.classList.add('hidden');
+  dashboardLink.classList.remove('hidden');
+  renderSearchResults();
+});
+
+searchInput.addEventListener('input', renderSearchResults);
+categoryFilter.addEventListener('change', renderSearchResults);
+priceFilter.addEventListener('change', renderSearchResults);
+sortFilter.addEventListener('change', renderSearchResults);
+
 continueShoppingButton.addEventListener('click', () => {
   cartSection.classList.add('hidden');
   productsSection.classList.remove('hidden');
   continueShoppingButton.classList.add('hidden');
 });
 
-document.querySelectorAll('button[data-product-name]').forEach((button) => {
-  button.addEventListener('click', () => {
-    const name = button.getAttribute('data-product-name');
-    const existingItem = cart.find((item) => item.name === name);
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-product-name]');
 
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      cart.push({ name, price: products.find((product) => product.name === name).price, quantity: 1 });
-    }
+  if (!button) {
+    return;
+  }
 
-    cartSection.classList.remove('hidden');
-    productsSection.classList.remove('hidden');
-    continueShoppingButton.classList.remove('hidden');
-    renderCart();
-  });
+  const name = button.getAttribute('data-product-name');
+  const existingItem = cart.find((item) => item.name === name);
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({ name, price: products.find((product) => product.name === name).price, quantity: 1 });
+  }
+
+  cartSection.classList.remove('hidden');
+  productsSection.classList.remove('hidden');
+  searchPage.classList.add('hidden');
+  continueShoppingButton.classList.remove('hidden');
+  renderCart();
+  renderSearchResults();
 });
 
 cartItems.addEventListener('click', (event) => {
@@ -285,3 +381,4 @@ saveProfileButton.addEventListener('click', () => {
 renderProfile();
 showProfileView();
 renderCart();
+renderSearchResults();
