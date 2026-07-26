@@ -19,10 +19,45 @@
         <input id="password" name="password" type="password" placeholder="Enter password" />
 
         <button id="loginButton" type="submit">Login</button>
-        <button id="logoutButton" type="button" class="secondary hidden">Logout</button>
 
         <p id="message" class="message" aria-live="polite"></p>
       </form>
+
+      <button id="logoutButton" type="button" class="secondary hidden">Logout</button>
+
+      <section id="dashboardPage" class="card hidden">
+        <h2>Dashboard</h2>
+        <p>Welcome to your dashboard.</p>
+        <div class="nav-links">
+          <a id="profileLink" href="#">Profile</a>
+          <a id="dashboardLink" href="#" class="secondary-link hidden">Dashboard</a>
+        </div>
+        <p class="dashboard-note">Use the profile page to manage your details.</p>
+      </section>
+
+      <section id="profilePage" class="card hidden">
+        <h2>Profile Management</h2>
+        <div id="profileView">
+          <p><strong>Full Name:</strong> <span id="fullNameValue">Jane Doe</span></p>
+          <p><strong>Email:</strong> <span id="emailValue">jane@example.com</span></p>
+          <p><strong>Mobile Number:</strong> <span id="mobileValue">9876543210</span></p>
+          <button id="editProfileButton" type="button">Edit Profile</button>
+        </div>
+
+        <form id="profileForm" class="profile-form hidden">
+          <label for="fullName">Full Name</label>
+          <input id="fullName" name="fullName" type="text" value="Jane Doe" />
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" value="jane@example.com" />
+
+          <label for="mobileNumber">Mobile Number</label>
+          <input id="mobileNumber" name="mobileNumber" type="text" value="9876543210" />
+
+          <button id="saveProfileButton" type="button">Save Changes</button>
+          <p id="profileMessage" class="message" aria-live="polite"></p>
+        </form>
+      </section>
     </main>
 
     <script src="app.js"></script>

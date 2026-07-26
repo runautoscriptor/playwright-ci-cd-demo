@@ -1,12 +1,13 @@
 # Playwright + GitHub Actions Playground
 
-This project is a very simple beginner-friendly playground for learning how Playwright automation works with GitHub Actions CI/CD.
+This project is a beginner-friendly playground for learning Playwright automation, GitHub Actions, and regression testing.
 
 ## What is included?
 
 - A simple demo login web app built with HTML, CSS, and JavaScript
 - A Playwright TypeScript test suite
 - A basic Page Object Model structure
+- A new Profile Management feature
 - An HTML report generator
 - A GitHub Actions workflow that runs on push and pull request
 
@@ -43,74 +44,60 @@ This project is a very simple beginner-friendly playground for learning how Play
   npm run report
   ```
 
-## How GitHub Actions works here
+## New feature: Profile Management
 
-GitHub Actions is automation that runs in the cloud whenever you push code or open a pull request.
+After a successful login, the app now shows a Dashboard and a Profile page.
 
-In this project, the workflow:
+The Profile page displays:
 
-1. Checks out your repository code
-2. Installs Node.js
-3. Installs dependencies
-4. Installs Playwright browser binaries
-5. Runs your Playwright tests
-6. Uploads the HTML report as an artifact
+- Full Name
+- Email
+- Mobile Number
+
+You can also click Edit Profile to change the details and save them.
+
+The app includes validation so that:
+
+- Full Name cannot be empty
+- Email must be valid
+
+## Regression testing example
+
+When you push this feature branch to GitHub, GitHub Actions will run both sets of tests:
+
+- Login Tests
+- Profile Tests
+
+This is a simple example of regression testing.
+
+If a future change accidentally breaks Login, the GitHub Actions workflow should fail before the code is merged.
+
+That is the value of having automated tests in CI/CD.
 
 ## CI/CD Practice Scenarios
 
-### Scenario 1: Change the correct password
+### Scenario 1: Break the Login flow
 
-Change the correct password in the app from `pass123` to something else.
-
-Expected result:
-- The Playwright login test fails
-- The GitHub Action turns RED
-
-### Scenario 2: Change the Login button text
-
-Change the text on the Login button from `Login` to something else.
+Change the login password or the button behavior in the app.
 
 Expected result:
-- The Playwright test fails because the locator no longer matches
+- The Login tests fail
+- GitHub Actions turns RED
 
-### Scenario 3: Delete the Password field
+### Scenario 2: Break the Profile flow
 
-Remove the password input from the page.
-
-Expected result:
-- Tests fail because Playwright cannot find the password field
-
-### Scenario 4: Fix the code
-
-Restore the password field and correct password.
+Change the profile validation logic or remove the success message.
 
 Expected result:
-- The pipeline becomes GREEN again
+- The Profile tests fail
+- GitHub Actions turns RED
 
-### Scenario 5: Add a new test
+### Scenario 3: Fix the issue
 
-Add another test file or add a new test case to the existing suite.
+Restore the app to the expected state and push again.
 
 Expected result:
-- CI automatically runs the new test the next time you push
-
-## How to intentionally break the app
-
-You can purposely break the app to see CI fail:
-
-- Change the password in app/app.js
-- Rename the button id in app/index.html
-- Remove a form element
-
-After pushing the change, GitHub Actions will run and the tests will fail.
-
-## How to fix it and see CI pass again
-
-1. Restore the app to the expected state
-2. Commit the fix
-3. Push to GitHub
-4. Watch the GitHub Actions run again
-5. Confirm the workflow turns green
+- The workflow turns GREEN
 
 ## Full execution flow
 
@@ -123,9 +110,3 @@ After pushing the change, GitHub Actions will run and the tests will fail.
 7. Playwright runs the tests
 8. The HTML report is generated
 9. GitHub shows pass or fail status for the workflow
-
-## Learning goal
-
-The main goal is to understand the flow:
-
-Developer change -> GitHub Actions trigger -> Playwright test execution -> report -> pass/fail result
