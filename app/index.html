@@ -30,9 +30,48 @@
         <p>Welcome to your dashboard.</p>
         <div class="nav-links">
           <a id="profileLink" href="#">Profile</a>
+          <a id="cartLink" href="#">Cart</a>
           <a id="dashboardLink" href="#" class="secondary-link hidden">Dashboard</a>
         </div>
         <p class="dashboard-note">Use the profile page to manage your details.</p>
+      </section>
+
+      <section id="productsSection" class="card hidden">
+        <h2>Products</h2>
+        <div class="product-list">
+          <div class="product-card" data-product-name="Laptop">
+            <h3>Laptop</h3>
+            <p>Price: $1000</p>
+            <button type="button" data-product-name="Laptop">Add To Cart</button>
+          </div>
+          <div class="product-card" data-product-name="Mouse">
+            <h3>Mouse</h3>
+            <p>Price: $50</p>
+            <button type="button" data-product-name="Mouse">Add To Cart</button>
+          </div>
+          <div class="product-card" data-product-name="Keyboard">
+            <h3>Keyboard</h3>
+            <p>Price: $120</p>
+            <button type="button" data-product-name="Keyboard">Add To Cart</button>
+          </div>
+          <div class="product-card" data-product-name="Monitor">
+            <h3>Monitor</h3>
+            <p>Price: $350</p>
+            <button type="button" data-product-name="Monitor">Add To Cart</button>
+          </div>
+        </div>
+        <button id="continueShoppingButton" type="button" class="secondary hidden">Continue Shopping</button>
+      </section>
+
+      <section id="cartSection" class="card hidden">
+        <h2>Your Cart</h2>
+        <p id="emptyCartMessage" class="message">Your cart is empty.</p>
+        <div id="cartItems"></div>
+        <div class="cart-summary">
+          <p>Subtotal: <span id="subtotal">$0</span></p>
+          <p>Total Items: <span id="totalItems">0</span></p>
+          <p>Cart Count: <span id="cartCount">0</span></p>
+        </div>
       </section>
 
       <section id="profilePage" class="card hidden">
