@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from './pages/loginPage';
 import { SearchPage } from './pages/SearchPage';
 
-test('search existing product', async ({ page }) => {
+// Smoke: this is the primary search entry point because it proves the user can open search and find a known product.
+test('search existing product @smoke @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -15,7 +16,8 @@ test('search existing product', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('Gaming Laptop');
 });
 
-test('search partial text', async ({ page }) => {
+// Sanity: this checks that partial text still returns useful results for the search experience.
+test('search partial text @sanity @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -28,7 +30,8 @@ test('search partial text', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('Gaming Laptop');
 });
 
-test('search with lowercase', async ({ page }) => {
+// Sanity: this confirms the search is case-insensitive and still returns products.
+test('search with lowercase @sanity @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -40,7 +43,8 @@ test('search with lowercase', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('Wireless Mouse');
 });
 
-test('search nonexistent product', async ({ page }) => {
+// Regression: this protects the empty-result state when no product matches the query.
+test('search nonexistent product @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -52,7 +56,8 @@ test('search nonexistent product', async ({ page }) => {
   await expect(searchPage.noProductsMessage).toContainText('No products found');
 });
 
-test('clear search returns all products', async ({ page }) => {
+// Regression: this ensures clearing the search returns the full product catalog.
+test('clear search returns all products @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -66,7 +71,8 @@ test('clear search returns all products', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('Wireless Mouse');
 });
 
-test('search then add to cart', async ({ page }) => {
+// Sanity: this checks that a product found in search can be added to the cart directly.
+test('search then add to cart @sanity @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -79,7 +85,8 @@ test('search then add to cart', async ({ page }) => {
   await expect(searchPage.cartCount).toContainText('1');
 });
 
-test('filter by category', async ({ page }) => {
+// Regression: this validates the category filter behavior in the search module.
+test('filter by category @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -92,7 +99,8 @@ test('filter by category', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('USB Cable');
 });
 
-test('filter by price', async ({ page }) => {
+// Regression: this protects the price filter and ensures it narrows results correctly.
+test('filter by price @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -105,7 +113,8 @@ test('filter by price', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('USB Cable');
 });
 
-test('sort price low to high', async ({ page }) => {
+// Regression: this ensures the low-to-high sorting option behaves as expected.
+test('sort price low to high @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -117,7 +126,8 @@ test('sort price low to high', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('USB Cable');
 });
 
-test('sort price high to low', async ({ page }) => {
+// Regression: this protects the high-to-low sorting option in the search results.
+test('sort price high to low @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -129,7 +139,8 @@ test('sort price high to low', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('Gaming Laptop');
 });
 
-test('sort alphabetically', async ({ page }) => {
+// Regression: this keeps alphabetical sorting stable for the search view.
+test('sort alphabetically @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -141,7 +152,8 @@ test('sort alphabetically', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('Gaming Laptop');
 });
 
-test('search and filter together', async ({ page }) => {
+// Regression: this validates that search and filtering can be combined successfully.
+test('search and filter together @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
@@ -155,7 +167,8 @@ test('search and filter together', async ({ page }) => {
   await expect(searchPage.searchResults).toContainText('Gaming Laptop');
 });
 
-test('verify navigation from dashboard to search', async ({ page }) => {
+// Smoke: this confirms the search page can be reached from the dashboard as a core path.
+test('verify navigation from dashboard to search @smoke @regression', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const searchPage = new SearchPage(page);
 
